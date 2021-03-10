@@ -2,24 +2,24 @@ package gof.pattern.creational.prototype;
 
 
 import org.junit.Assert;
-import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class PrototypeTest {
 
-	private final int EXPECTED_SPEED = 120;
-	private final int EXPECTED_WEIGHT = 700;
-	private final int EXPECTED_WHEELS = 4;
+	private final static int EXPECTED_SPEED = 120;
+	private final static int EXPECTED_WEIGHT = 700;
+	private final static int EXPECTED_WHEELS = 4;
 	
-	private Car copy;
+	private static Car copy;
 	
-	@Before
-	public void init() {
+	@BeforeClass
+	public static void init() {
 		Car original = new Car();
 		original.setSpeed( EXPECTED_SPEED );
 		original.setWeight( EXPECTED_WEIGHT );
 		original.setWheels( EXPECTED_WHEELS );
-		this.copy = (Car) original.prototype();
+		copy = (Car) original.prototype();
 	}
 	@Test
 	public void isNotInstanceOfCar_expectedFalse() {

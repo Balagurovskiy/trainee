@@ -3,17 +3,18 @@ package gof.pattern.creational.builder;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class BuilderTest {
 
-	private Director director;
-	private VehicleBuilder builder;
+	private static Director director;
+	private static VehicleBuilder builder;
 	
-	@Before
-	public void init() {
-		this.director = new Director();
-		this.builder = new CarBuilder();
+	@BeforeClass
+	public static void init() {
+		director = new Director();
+		builder = new CarBuilder();
 	}
 	
 	@Test
