@@ -1,5 +1,7 @@
 package gof.pattern.behavioural.chain;
 
+import java.util.Objects;
+
 public abstract class Production {
 	protected Production next;
 	public void linkWith(Production next) {
@@ -7,10 +9,7 @@ public abstract class Production {
 	}
 	
 	protected boolean forward(Car car) {
-		if(next != null) {
-			return next.executeTask(car);
-		}
-		return true;
+		return Objects.isNull(next) ? true : next.executeTask(car);
 	}
 	public abstract boolean executeTask(Car car);
 }
