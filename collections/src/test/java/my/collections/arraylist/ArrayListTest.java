@@ -130,24 +130,5 @@ public class ArrayListTest {
 		String target = "A";
 		Assert.assertTrue(list.contains(target));
 	}
-	@Test 
-	public void test(){
-//		String[] x = {"x1","x3",null};
-//		int index = 1;
-//		System.arraycopy(x, index,
-//	            x, index + 1,
-//	            2 - index);
-//		x[index] = "x2";
-//		for (int i = 0; i < x.length; i++) {
-//			System.out.println(x[i]);
-//		}
-	}
-	
-//	for (int i = 0; i < list.size(); i++) {
-//	System.out.println(list.get(i));
-//}
-//System.out.println("---------------------------------");
-//expectedList.forEach(l->System.out.println(l));
-
     
 }
