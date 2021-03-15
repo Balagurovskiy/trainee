@@ -108,7 +108,7 @@ public class TraineeLinkedList<E> implements List<E>{
 			next.setPrev(prev);
 		}
 		if (Objects.isNull(prev)) {
-			first = prev;
+			first = next;
 		} else {
 			prev.setNext(next);
 		}
