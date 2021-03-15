@@ -27,7 +27,7 @@ public class LinkedListTest {
 	
 	@Test
 	@Order(1)//not working
-	public void linkedListAddTest_ExpectedEquals() {
+	public void linkedListAddTest_ExpectedArrayEquals() {
 		List<String> list = new TraineeLinkedList<>();
 		List<String> expectedList = new LinkedList<>();
 		loadData(list);
@@ -35,7 +35,7 @@ public class LinkedListTest {
 		Assert.assertArrayEquals(list.toArray(), expectedList.toArray());
 	}
 	@Test
-	public void linkedListGetTest_ExpectedEquals() {
+	public void linkedListGetTest_ExpectedDataEquals() {
 		List<String> list = new TraineeLinkedList<>();
 		List<String> expectedList = new LinkedList<>();
 		loadData(list);
@@ -57,7 +57,7 @@ public class LinkedListTest {
 	}
 	@Test
 	@Order(3)
-	public void linkedListClearTest_ExpectedEquals() {
+	public void linkedListClearTest_ExpectedArrayEquals() {
 		List<String> list = new TraineeLinkedList<>();
 		List<String> expectedList = new LinkedList<>();
 		loadData(list);
@@ -68,7 +68,7 @@ public class LinkedListTest {
 	}
 
 	@Test 
-	public void linkedListAddWithIndexTest_ExpectedEquals() {
+	public void linkedListAddWithIndexTest_ExpectedArrayEquals() {
 		List<String> list = new TraineeLinkedList<>();
 		List<String> expectedList = new LinkedList<>();
 		loadData(list);
@@ -88,7 +88,7 @@ public class LinkedListTest {
 		Assert.assertEquals(list.isEmpty(), expectedList.isEmpty());
 	}
 	@Test
-	public void linkedListAddAllTest_ExpectedEquals_1() {
+	public void linkedListAddAllTest_ExpectedArrayEquals_1() {
 		List<String> list = new TraineeLinkedList<>();
 		List<String> expectedList = new LinkedList<>();
 		loadData(list);
@@ -99,7 +99,7 @@ public class LinkedListTest {
 		Assert.assertArrayEquals(list.toArray(), expectedList.toArray());
 	}
 	@Test
-	public void linkedListAddAllTest_ExpectedEquals_2() {
+	public void linkedListAddAllTest_ExpectedArrayEquals_2() {
 		List<String> list = new TraineeLinkedList<>();
 		List<String> expectedList = new LinkedList<>();
 		loadData(list);
@@ -110,7 +110,7 @@ public class LinkedListTest {
 		Assert.assertArrayEquals(list.toArray(), expectedList.toArray());
 	}
 	@Test
-	public void linkedListIndexOfTest_ExpectedEquals() {
+	public void linkedListIndexOfTest_ExpectedIndexEquals() {
 		String target = "X";
 		List<String> list = new TraineeLinkedList<>();
 		List<String> expectedList = new LinkedList<>();
@@ -122,7 +122,7 @@ public class LinkedListTest {
 		Assert.assertEquals(list.indexOf(target), expectedList.indexOf(target));
 	}
 	@Test
-	public void linkedListLastIndexOfTest_ExpectedEquals() {
+	public void linkedListLastIndexOfTest_ExpectedIndexEquals() {
 		String target = "X";
 		List<String> list = new TraineeLinkedList<>();
 		List<String> expectedList = new LinkedList<>();
@@ -134,7 +134,48 @@ public class LinkedListTest {
 		expectedList.add(target);
 		Assert.assertEquals(list.indexOf(target), expectedList.indexOf(target));
 	}
-	
+	@Test
+	public void linkedListRemoveTest_ExpectedTrue() {
+		String target = "X";
+		List<String> list = new TraineeLinkedList<>();
+		list.add(target);
+		Assert.assertTrue(list.remove(target));
+	}
+	@Test
+	public void linkedListRemoveTest_ExpectedFalse() {
+		String target = "X";
+		List<String> list = new TraineeLinkedList<>();
+		Assert.assertFalse(list.remove(target));
+	}
+	@Test
+	public void linkedListRemoveTest_ExpectedArrayEquals() {
+		String target = "X";
+		List<String> list = new TraineeLinkedList<>();
+		List<String> expectedList = new LinkedList<>();
+		list.add(target);
+		expectedList.add(target);
+		list.remove(target);
+		expectedList.remove(target);
+		Assert.assertArrayEquals(list.toArray(), expectedList.toArray());
+	}
+	@Test
+	public void linkedListRemoveByIndexTest_ExpectedRemovedEquals() {
+		String target = "X";
+		List<String> list = new TraineeLinkedList<>();
+		list.add(target);
+		Assert.assertEquals(list.remove(0), target);
+	}
+	@Test
+	public void linkedListRemoveByIndexTest_ExpectedArrayEquals() {
+		String target = "X";
+		List<String> list = new TraineeLinkedList<>();
+		List<String> expectedList = new LinkedList<>();
+		list.add(target);
+		expectedList.add(target);
+		list.remove(0);
+		expectedList.remove(0);
+		Assert.assertArrayEquals(list.toArray(), expectedList.toArray());
+	}
 //	for (int i = 0; i < list.size(); i++) {
 //		System.out.println(list.get(i));
 //	}

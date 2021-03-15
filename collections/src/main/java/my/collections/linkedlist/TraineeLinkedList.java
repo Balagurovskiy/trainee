@@ -33,12 +33,12 @@ public class TraineeLinkedList<E> implements List<E>{
 
 	@Override
 	public boolean contains(Object o) {
-		return false;
+		return (indexOf(o) >= 0);
 	}
 
 	@Override
 	public Iterator<E> iterator() {
-		return null;
+		throw new UnsupportedOperationException();
 	}
 
 	/*
@@ -61,14 +61,13 @@ public class TraineeLinkedList<E> implements List<E>{
 
 	@Override
 	public <T> T[] toArray(T[] a) {
-		return null;
+		throw new UnsupportedOperationException();
 	}
 	/*
 	 *  Appends the specified element to the end of this list.
 	 */
 	@Override
 	public boolean add(E data) {
-    	
 		TraineeNode<E> node = new TraineeNode<>(last, data, null);
 		if(Objects.isNull(last)) {
 			first = node;
@@ -100,14 +99,40 @@ public class TraineeLinkedList<E> implements List<E>{
 		}
 	}
 	
+	private void extractNode(TraineeNode<E> node) {
+		TraineeNode<E> prev = node.getPrev();
+		TraineeNode<E> next = node.getNext();
+		if (Objects.isNull(next)) {
+			last = prev;
+		} else {
+			next.setPrev(prev);
+		}
+		if (Objects.isNull(prev)) {
+			first = prev;
+		} else {
+			prev.setNext(next);
+		}
+		node.setData(null);
+		node.setPrev(null);
+		node.setNext(null);
+		size--;
+	}
 	@Override
 	public boolean remove(Object o) {
+		TraineeNode<E> node = first;
+		while(node != null) {
+			if (node.getData().equals(o)) {
+				extractNode(node);
+				return true;
+			}
+			node = node.getNext();					
+		}
 		return false;
 	}
 
 	@Override
 	public boolean containsAll(Collection<?> data) {
-		return false;
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
@@ -129,7 +154,6 @@ public class TraineeLinkedList<E> implements List<E>{
     		throw new NullPointerException();
     	}
 		Object[] objects = data.toArray();
-		int indexToAdd = 0;
 		for (int i = 0; i < objects.length; i++) {
 			add(index + i, (E) objects[i]);
 		}
@@ -138,12 +162,12 @@ public class TraineeLinkedList<E> implements List<E>{
 
 	@Override
 	public boolean removeAll(Collection<?> c) {
-		return false;
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public boolean retainAll(Collection<?> c) {
-		return false;
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
@@ -185,13 +209,25 @@ public class TraineeLinkedList<E> implements List<E>{
 	}
 
 	@Override
-	public E set(int index, E element) {
-		return null;
+	public E set(int index, E data) {
+		if(size > 0) {
+			TraineeNode<E> node = getNode(index);
+			E oldData = node.getData();
+			node.setData(data);
+			return (oldData);
+		}
+		throw new IndexOutOfBoundsException();
 	}
 
 	@Override
 	public E remove(int index) {
-		return null;
+		if(size > 0) {
+			TraineeNode<E> node = getNode(index);
+			E reomovedData = node.getData();
+			extractNode(node);
+			return (reomovedData);
+		}
+		throw new IndexOutOfBoundsException();
 	}
 
 	@Override
@@ -199,14 +235,8 @@ public class TraineeLinkedList<E> implements List<E>{
 		TraineeNode<E> node = first;
 		int index = 0;
 		while(node != null) {
-			if (o == null) {
-				if (node.getData() == null) {
-					return index;
-				}
-			} else {
-				if (node.getData().equals(o)) {
-					return index;
-				}
+			if (node.getData().equals(o)) {
+				return index;
 			}
 			index++;
 			node = node.getNext();					
@@ -219,14 +249,8 @@ public class TraineeLinkedList<E> implements List<E>{
 		TraineeNode<E> node = first;
 		int index = size;
 		while(node != null) {
-			if (o == null) {
-				if (node.getData() == null) {
-					return index;
-				}
-			} else {
-				if (node.getData().equals(o)) {
-					return index;
-				}
+			if (node.getData().equals(o)) {
+				return index;
 			}
 			index--;
 			node = node.getNext();					
@@ -236,16 +260,16 @@ public class TraineeLinkedList<E> implements List<E>{
 
 	@Override
 	public ListIterator<E> listIterator() {
-		return null;
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public ListIterator<E> listIterator(int index) {
-		return null;
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public List<E> subList(int fromIndex, int toIndex) {
-		return null;
+		throw new UnsupportedOperationException();
 	}
 }
