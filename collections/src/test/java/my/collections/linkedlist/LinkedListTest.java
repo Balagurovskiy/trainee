@@ -24,7 +24,13 @@ public class LinkedListTest {
 			l.add(testData.substring(0, i));
 		}
 	}
-	
+	@Test
+	public void linkedListConstructorTest_ExpectedArrayEquals() {
+		List<String> expectedList = new LinkedList<>();
+		loadData(expectedList);
+		List<String> list = new TraineeLinkedList<>(expectedList);
+		Assert.assertArrayEquals(list.toArray(), expectedList.toArray());
+	}
 	@Test
 	@Order(1)//not working
 	public void linkedListAddTest_ExpectedArrayEquals() {
@@ -176,10 +182,5 @@ public class LinkedListTest {
 		expectedList.remove(0);
 		Assert.assertArrayEquals(list.toArray(), expectedList.toArray());
 	}
-//	for (int i = 0; i < list.size(); i++) {
-//		System.out.println(list.get(i));
-//	}
-//	System.out.println("---------------------------------");
-//	expectedList.forEach(l->System.out.println(l));
 
 }
