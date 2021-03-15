@@ -6,7 +6,7 @@ public class TraineeNode<E> {
     private TraineeNode<E> next;
     private TraineeNode<E> prev;
 
-    TraineeNode(TraineeNode<E> prev, E data, TraineeNode<E> next) {
+    public TraineeNode(TraineeNode<E> prev, E data, TraineeNode<E> next) {
         this.data = data;
         this.next = next;
         this.prev = prev;
