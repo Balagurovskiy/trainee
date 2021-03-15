@@ -235,7 +235,10 @@ public class TraineeLinkedList<E> implements List<E>{
 		TraineeNode<E> node = first;
 		int index = 0;
 		while(node != null) {
-			if (node.getData().equals(o)) {
+			E data = node.getData();
+			boolean eqNull = Objects.isNull(data) && data == null;
+			boolean eqNotNUll = !eqNull && data.equals(o); 
+			if(eqNull || eqNotNUll) {
 				return index;
 			}
 			index++;
@@ -249,7 +252,10 @@ public class TraineeLinkedList<E> implements List<E>{
 		TraineeNode<E> node = first;
 		int index = size;
 		while(node != null) {
-			if (node.getData().equals(o)) {
+			E data = node.getData();
+			boolean eqNull = Objects.isNull(data) && data == null;
+			boolean eqNotNUll = !eqNull && data.equals(o); 
+			if(eqNull || eqNotNUll) {
 				return index;
 			}
 			index--;
