@@ -44,7 +44,7 @@ public class TraineeMap<K, V> implements Map<K, V>{
 			TraineeEntry<K, V> bucket = this.buckets[ i ];
 			while(bucket != null) {
 				if (Objects.isNull(bucket.getValue())) {
-					if(Objects.isNull(bucket.getValue())) {
+					if(Objects.isNull(value)) {
 						return true;
 					}
 				}else if (bucket.getValue().equals(value)) {
