@@ -58,6 +58,7 @@ public class MergeSort implements Sortable{
             merge(source, left, mmiddle, right);
         }
     }
+    
 	@Override
 	public <T extends Comparable<T>> T[] sort(T[] input) {
 		T[] output = Arrays.copyOf(input, input.length);
