@@ -63,14 +63,7 @@ public class MergeSort implements Sortable{
 		T[] output = Arrays.copyOf(input, input.length);
 		
 		sort(output, 0 , output.length - 1);
-		System.out.println();
-		for (int i = 0; i < output.length; i++) {
-			System.out.print(output[i] + "  ");
-		}
 		
 		return output;
-	}
-	public static void main(String[] args) {
-		new MergeSort().sort(new Integer[] {3,1,5,4,2});
 	}
 }

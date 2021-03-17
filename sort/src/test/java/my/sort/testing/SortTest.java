@@ -7,8 +7,10 @@ import org.junit.Test;
 
 import my.sort.bubble.BubbleSort;
 import my.sort.insertion.InsertionSort;
+import my.sort.merge.MergeSort;
 import my.sort.quick.QuickSort;
 import my.sort.selection.SelectionSort;
+import my.sort.shell.ShellSort;
 
 public class SortTest {
 
@@ -50,8 +52,23 @@ public class SortTest {
 
         Assert.assertArrayEquals(expected, tested);
 	}
-//	
-//    System.out.printf(" src : %s", Arrays.toString(source));
-//    System.out.printf(" tested : %s", Arrays.toString(tested));
-//    System.out.printf(" sorted : %s", Arrays.toString(expected));
+	@Test
+	public void mergeTest() {
+		String[] expected = Arrays.copyOf(source, source.length);
+		Arrays.sort(expected);
+		
+		String[] tested = new MergeSort().sort(source);
+
+        Assert.assertArrayEquals(expected, tested);
+	}
+	
+	@Test
+	public void shellTest() {
+		String[] expected = Arrays.copyOf(source, source.length);
+		Arrays.sort(expected);
+		
+		String[] tested = new ShellSort().sort(source);
+
+        Assert.assertArrayEquals(expected, tested);
+	}
 }
