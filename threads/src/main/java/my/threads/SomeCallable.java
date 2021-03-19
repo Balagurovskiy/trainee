@@ -2,9 +2,6 @@ package my.threads;
 
 import java.time.LocalTime;
 import java.util.concurrent.Callable;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -18,7 +15,6 @@ public class SomeCallable implements Callable<SomeCallable>{
 	@Getter @Setter private LocalTime startModTime;
 	@Getter @Setter private LocalTime endModTime;
 	
-	private Lock lock;
 	
 	@Getter @Setter private String threadName;
 	
@@ -26,27 +22,20 @@ public class SomeCallable implements Callable<SomeCallable>{
 	
 	public SomeCallable(SomeData data) {
 		this.dataProvider = data;
-        this.lock = new ReentrantLock();
 	}
 	@Override
 	public SomeCallable call() throws Exception {
 		startModTime = LocalTime.now();
 		prev = dataProvider.getData();
-//		try {
-//            if(lock.tryLock(10, TimeUnit.SECONDS)){
-            	dataProvider.increment();
-//            }
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }finally{
-//            lock.unlock();
-//        }
+		synchronized(dataProvider) {
+        	dataProvider.increment();
+		}
 		threadName = Thread.currentThread().getName();
 		current = dataProvider.getData();
 		endModTime = LocalTime.now();
 		return this;
 	}
-
+	
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();

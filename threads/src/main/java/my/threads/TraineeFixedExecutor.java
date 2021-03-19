@@ -13,17 +13,13 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class TraineeFixedExecutor {
-	public static void main(String[] args) throws InterruptedException, ExecutionException {
-		
-		ExecutorService executorService = Executors.newFixedThreadPool(10);
-		
-		SomeData data = new SomeData();
-		
-		Supplier<SomeCallable> create = () -> new SomeCallable(data);
-		
-		List<SomeCallable> tasks = Stream.generate( create::get ).limit(20).collect(Collectors.toList());
-		
-		Function<Future<SomeCallable>, SomeCallable> convert = (f) -> {
+
+	private static SomeData data = new SomeData();
+	private static final int NUMBER_OF_THREADS = 10;
+	private static final int NUMBER_OF_CALLS = 20;
+
+	public static Function<Future<SomeCallable>, SomeCallable> convert() {
+		return (f) -> {
 			SomeCallable call = null;
 			try {
 				call = f.get();
@@ -32,19 +28,34 @@ public class TraineeFixedExecutor {
 			}
 			return call;
 		};
-		
-		Map<String, List<SomeCallable>> futures = executorService.invokeAll(tasks)
-														.stream()
-														.map(convert::apply)
-														.collect( 
-																Collectors.groupingBy(SomeCallable::getThreadName)
-																);
-		BiConsumer<String, List<SomeCallable>> print = (k, v) ->{
+	}
+
+	public static BiConsumer<String, List<SomeCallable>> print() {
+		return (k, v) -> {
 			System.out.println(k + " :");
 			v.stream().forEach(System.out::println);
 		};
-		futures.forEach(print::accept);
-		System.out.println("\n * Incremented result data : " + data.getData()+ " *");
+	}
+
+	public static Supplier<SomeCallable> create() {
+		return () -> new SomeCallable(data);
+	}
+
+	public static void main(String[] args) throws InterruptedException, ExecutionException {
+
+		ExecutorService executorService = Executors.newFixedThreadPool(NUMBER_OF_THREADS);
+
+		List<SomeCallable> tasks = Stream.generate(create()::get).limit(NUMBER_OF_CALLS).collect(Collectors.toList());
+
+		Map<String, List<SomeCallable>> futures = executorService.invokeAll(tasks)
+													.stream()
+													.map(convert()::apply)
+													.collect(Collectors.groupingBy(SomeCallable::getThreadName));
+
+		futures.forEach(print()::accept);
+		
 		executorService.shutdown();
+		
+		System.out.println("\n * Incremented result data : " + data.getData() + " *");
 	}
 }
