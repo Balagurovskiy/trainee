@@ -1,20 +1,20 @@
 package my.threads;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+
+@Getter
+@Setter
+//@NoArgsConstructor
+@ToString
 public class SomeData {
-	private String data;
+	private volatile Integer data;
 	public SomeData() {
+		data = 0;
 	}
-
-	public SomeData(String data) {
-		this.data = data;
+	public void increment() {
+		data++;
 	}
-	public String getData() {
-		return data;
-	}
-
-	public void setData(String data) {
-		this.data += data;
-	}
-	
-	
 }

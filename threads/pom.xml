@@ -18,9 +18,16 @@
         <maven.compiler.version>3.8.1</maven.compiler.version>
         <jacoco.maven.version>0.8.4</jacoco.maven.version>
         <maven.surefire.version>2.22.2</maven.surefire.version>
+        <lambok.version>1.18.12</lambok.version>
     </properties>
  
     <dependencies>
+		<dependency>
+		    <groupId>org.projectlombok</groupId>
+		    <artifactId>lombok</artifactId>
+		    <version>${lambok.version}</version>
+		        <scope>provided</scope>
+		</dependency>
 		<dependency>
 		    <groupId>junit</groupId>
 		    <artifactId>junit</artifactId>
