@@ -18,7 +18,6 @@ public class ChatBot {
 	public static String answer(String request) {
 		String res = "";
 		if(request.contains("#")) {
-			System.out.println("!");
 			for (Iterator iterator = answers.entrySet().iterator(); iterator.hasNext();) {
 				Entry<String, String> a = (Entry<String, String>) iterator.next();
 				if(request.contains(a.getKey())) {
