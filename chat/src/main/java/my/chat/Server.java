@@ -7,10 +7,14 @@ import java.net.SocketException;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Server {
 	
 	private ServerSocket server;
+	
+	private final static Logger LOGGER = Logger.getLogger(Server.class.getName());
 	
 	public Server(int port) {
 		try {
@@ -30,6 +34,7 @@ public class Server {
 				try {
 					connection = new Connection(server.accept());
 				}catch (SocketException e) {
+					LOGGER.log(Level.WARNING, "SocketException ! While accepting new socket");
 				}
 				if (Objects.nonNull(connection)) {
 					connection.setListener(new ServerListener());
@@ -37,7 +42,7 @@ public class Server {
 					new Thread(connection).start();
 				}
 			} catch (IOException e) {
-				e.printStackTrace();
+				LOGGER.log(Level.WARNING, "IOException ! In client thread");
 			}
 		}
 		System.out.println(" [ Server ] : stoped");

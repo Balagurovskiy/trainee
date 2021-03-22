@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Optional;
 
 public class ChatBot {
 	private static Map<String, String> answers = new HashMap<>();
@@ -16,15 +17,10 @@ public class ChatBot {
 	}
 	
 	public static String answer(String request) {
-		String res = "";
+		Optional<Entry<String, String>> res = null;
 		if(request.contains("#")) {
-			for (Iterator iterator = answers.entrySet().iterator(); iterator.hasNext();) {
-				Entry<String, String> a = (Entry<String, String>) iterator.next();
-				if(request.contains(a.getKey())) {
-					res += a.getValue();
-				}
-			}
+			res = answers.entrySet().stream().filter(entry -> request.contains(entry.getKey())).findFirst();
 		}
-		return (res.isEmpty()) ? "Sorry, I will find out about this!" : res;
+		return (res.isPresent()) ? res.get().getValue() : "Sorry, I will find out about this!";
 	}
 }

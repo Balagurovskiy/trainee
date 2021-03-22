@@ -3,6 +3,8 @@ package my.chat;
 import java.io.IOException;
 import java.net.Socket;
 import java.util.Objects;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Connection implements AutoCloseable, Runnable{
 	private Socket socket;
@@ -12,6 +14,8 @@ public class Connection implements AutoCloseable, Runnable{
 	private boolean isActive;
 	private boolean isClosed;
 
+	private final static Logger LOGGER = Logger.getLogger(Connection.class.getName());
+	
 	public Connection(Socket socket) {
 		isReady = false;
 		isActive = false;
@@ -24,13 +28,14 @@ public class Connection implements AutoCloseable, Runnable{
 			this.socket = new Socket(address, port);
 			this.query = new Query(socket);
 		} catch (IOException e) {
-			System.out.println("Exception ! There is no connection on : " + address + " | " + port);
+			LOGGER.log(Level.WARNING, "Exception ! There is no connection on : " + address + " | " + port);
 		}
 	}
 	
 	public void setListener(IListener listener) {
 		this.listener = listener;
 		if (Objects.isNull(listener)) {
+			LOGGER.log(Level.WARNING, "Exception ! Invalid listener for connection!");
 			throw new IllegalArgumentException();
 		}
 		if (Objects.nonNull(this.query)) {
@@ -49,6 +54,7 @@ public class Connection implements AutoCloseable, Runnable{
 			}
 			close();
 		} else {
+			LOGGER.log(Level.WARNING, "Exception ! Connection not ready without listener!");
 			throw new NullPointerException();
 		}
 	}
@@ -59,7 +65,7 @@ public class Connection implements AutoCloseable, Runnable{
 			try {
 				socket.close();
 			} catch (IOException e) {
-				e.printStackTrace();
+				LOGGER.log(Level.WARNING, "Exception ! Problem with socket closing");
 			}
 			query.close();
 		}

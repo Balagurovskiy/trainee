@@ -4,12 +4,16 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class ConnectionPool implements Runnable{
 	List<Connection> all;
 	private boolean isActive;
 	private boolean isWaiting;
 	private ServerSocket server;
+
+	private final static Logger LOGGER = Logger.getLogger(ConnectionPool.class.getName());
 	
 	public ConnectionPool(ServerSocket server) {
 		all = new CopyOnWriteArrayList<>();
@@ -40,13 +44,14 @@ public class ConnectionPool implements Runnable{
 		try {
 			this.server.close();
 		} catch (IOException e) {
+			LOGGER.log(Level.WARNING, "Exception ! On server close");
 		}
 	}
 	private void wait1Sec() {
 		try {
 			Thread.sleep(1000);
 		} catch (InterruptedException e) {
-			e.printStackTrace();
+			LOGGER.log(Level.WARNING, "InterruptedException ! On thread sleep");
 		}
 	}
 	public boolean isActive() {
