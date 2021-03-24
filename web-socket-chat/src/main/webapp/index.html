@@ -1,0 +1,74 @@
+<html>
+<head>
+ 	<style>
+		#log #pass {
+		  border-radius: 4px;
+		  width:50px;
+		}
+		#messages {
+		  border: 2px solid red;
+		  border-radius: 4px;
+		  width:500px;
+		  height:300px;
+		}
+ 	</style>
+    <title>Client</title>
+</head>
+<body>
+<div class="container">
+    <label for="log">Loggin:</label>
+    <input id="log" type="loggin"/>
+    <label for="pass">Password:</label>
+    <input id="pass" type="password"/>
+    <button id="enter">Connect</button>
+    <p id="status">You are NOT CONNECTED to the server</p>
+    <p>Messages : </p>
+    <div id="messages" ></div>
+
+    <div class="input-fields">
+        <p>Type your message here and hit send:</p>
+        <input id="message"/>
+        <button id="send">Send</button>
+    </div>
+</div>
+</body>
+<script>
+	const status = document.getElementById("status");
+	const logInput = document.getElementById("log");
+	const passInput = document.getElementById("pass");
+	const enter = document.getElementById("enter");
+	
+    const messageWindow = document.getElementById("messages");
+
+    const sendButton = document.getElementById("send");
+    const messageInput = document.getElementById("message");
+
+    const socket = new WebSocket("ws://localhost:8088/web-socket-chat/endpoint");
+    socket.binaryType = "arraybuffer";
+
+    socket.onopen = function (event) {
+    	status.innerHTML = 'You are CONNECTED to the server';
+    };
+
+    socket.onmessage = function (event) {
+    	addMessageToWindow(`${event.data}`);
+    };
+    enter.onclick = function (event) {
+    	let pack = logInput.value + '#' + passInput.value + '#Connected';
+        sendMessage(pack);
+    };
+    sendButton.onclick = function (event) {
+    	let pack = logInput.value + '#' + passInput.value + '#' + messageInput.value;
+        sendMessage(pack);
+        messageInput.value = "";
+    };
+ 
+    function sendMessage(message) {
+        socket.send(message);
+    }
+
+    function addMessageToWindow(message) {
+        messageWindow.innerHTML += `<div>${message}</div>`
+    }
+</script>
+</html>
