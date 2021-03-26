@@ -29,18 +29,4 @@ public class Main {
 		scanner.close();
 	}
 
-//	TODO
-//	1. Our shop will have 2 product groups (food and not food.)
-//	2. Application must be started from the console.
-//	3. After an action has been chosen current choice must be processed.
-//	4. After a finish/exit has been typed the app should be closed.
-//
-//	Actions:
-//
-//	Show product list.
-//	Add chosen product to the bucket
-//	Show products in the bucket
-//	Delete(particular) product from the bucket
-//	Clear the bucket
-//	Functional must be covered by tests.
 }
