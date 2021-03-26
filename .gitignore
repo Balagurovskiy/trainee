@@ -1,5 +1,5 @@
-*/.settings/*
-*/target/*
-*/.classpath*
-*/.project*
-*/.factorypath*
+shop/*/.settings/*
+shop/*/target/*
+shop/*/.classpath*
+shop/*/.project*
+shop/*/.factorypath*
