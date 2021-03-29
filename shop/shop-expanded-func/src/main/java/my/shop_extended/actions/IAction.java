@@ -1,4 +1,4 @@
-package my.shop_structure.actions;
+package my.shop_extended.actions;
 
 public interface IAction {
 	public void createInterface();

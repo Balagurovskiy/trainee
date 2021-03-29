@@ -6,23 +6,24 @@ import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import my.shop_structure.actions.BucketManament;
-import my.shop_structure.actions.MainMenu;
-import my.shop_structure.actions.ProductList;
-import my.shop_structure.bucket.Bucket;
-import my.shop_structure.products.ProductStash;
+import my.shop_extended.actions.BucketManagment;
+import my.shop_extended.actions.MainMenu;
+import my.shop_extended.actions.ProductList;
+import my.shop_extended.customer.Bucket;
+import my.shop_extended.customer.Customer;
+import my.shop_extended.products.ProductStash;
 
 public class MainMenuActionTest {
 	
 	private static MainMenu tested;
 	private static ProductStash stash;
-	private static Bucket bucket;
+	private static Customer customer;
 	
 	@BeforeClass
 	public static void init() {
 		stash = new ProductStash();
-		bucket = new Bucket();
-		tested = new MainMenu(stash, bucket);
+		customer = new Customer("test",999);
+		tested = new MainMenu(stash, customer);
 	}
 	@Test
 	public void mainMenuTest_hasNextAfterRequest_1_ExpectedTrue() {
@@ -47,7 +48,7 @@ public class MainMenuActionTest {
 	@Test
 	public void mainMenuTest_nextIsBucketManagerInstance_ExpectedTrue() {
 		tested.acceptRequest("2");
-		Assert.assertTrue(tested.next() instanceof BucketManament);
+		Assert.assertTrue(tested.next() instanceof BucketManagment);
 	}
 	@Test
 	public void mainMenuTest_exitRquest_ExpectedTrue() {

@@ -1,11 +1,9 @@
-package my.shop_structure;
+package my.shop_extended;
 import java.util.Scanner;
 
-import my.shop_structure.actions.IAction;
-import my.shop_structure.actions.MainMenu;
-import my.shop_structure.bucket.Bucket;
-import my.shop_structure.products.ProductStash;
-
+import my.shop_extended.actions.IAction;
+import my.shop_extended.products.ProductStash;
+import my.shop_extended.actions.PreloadCustomer;
 public class Main {
 
 	public static void main(String[] args) {
@@ -13,8 +11,7 @@ public class Main {
 		boolean work = true;
 		
 		ProductStash stash = new ProductStash();
-		Bucket bucket = new Bucket();
-		IAction currentAction = new MainMenu(stash, bucket);
+		IAction currentAction = new PreloadCustomer(stash, null);
 		
 		while(work) {
 			currentAction.createInterface();

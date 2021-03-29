@@ -6,24 +6,25 @@ import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import my.shop_structure.actions.BucketManament;
-import my.shop_structure.actions.MainMenu;
-import my.shop_structure.actions.ProductList;
-import my.shop_structure.bucket.Bucket;
-import my.shop_structure.products.ProductStash;
-import my.shop_structure.products.impl.Water;
+import my.shop_extended.actions.BucketManagment;
+import my.shop_extended.actions.MainMenu;
+import my.shop_extended.actions.ProductList;
+import my.shop_extended.customer.Bucket;
+import my.shop_extended.customer.Customer;
+import my.shop_extended.products.ProductStash;
+import my.shop_extended.products.impl.Water;
 
 public class BucketManagmentActionTest {
 
-	private static BucketManament tested;
+	private static BucketManagment tested;
 	private static ProductStash stash;
-	private static Bucket bucket;
+	private static Customer customer;
 	
 	@BeforeClass
 	public static void init() {
 		stash = new ProductStash();
-		bucket = new Bucket();
-		tested = new BucketManament(stash, bucket);
+		customer = new Customer("test",999);
+		tested = new BucketManagment(stash, customer);
 	}
 	@Test
 	public void bucketManamentTest_hasNextAfterRequest_2_ExpectedTrue() {
@@ -37,17 +38,17 @@ public class BucketManagmentActionTest {
 	}
 	@Test
 	public void bucketManamentTest_itemDelete_ExpectedEmpty() {
-		bucket.getStash().clear();
-		bucket.setStash(new Water());
-		tested.acceptRequest("0");
-		Assert.assertTrue(bucket.getStash().isEmpty());
+		customer.getWarehouse().clear();
+		customer.buy(new Water());
+		tested.acceptRequest("Water");
+		Assert.assertTrue(customer.getWarehouse().isEmpty());
 	}
 	@Test
 	public void bucketManamentTest_clear_ExpectedEmpty() {
-		bucket.getStash().clear();
-		bucket.setStash(new Water());
+		customer.getWarehouse().clear();
+		customer.buy(new Water());
 		tested.acceptRequest("clear");
-		Assert.assertTrue(bucket.getStash().isEmpty());
+		Assert.assertTrue(customer.getWarehouse().isEmpty());
 	}
 	@Test
 	public void bucketManamentTest_nextIsMainMenuInstance_ExpectedTrue() {

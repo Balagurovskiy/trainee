@@ -6,23 +6,24 @@ import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import my.shop_structure.actions.BucketManament;
-import my.shop_structure.actions.MainMenu;
-import my.shop_structure.actions.ProductList;
-import my.shop_structure.bucket.Bucket;
-import my.shop_structure.products.ProductStash;
+import my.shop_extended.actions.BucketManagment;
+import my.shop_extended.actions.MainMenu;
+import my.shop_extended.actions.ProductList;
+import my.shop_extended.customer.Bucket;
+import my.shop_extended.customer.Customer;
+import my.shop_extended.products.ProductStash;
 
 public class ProductListActionTest {
 
 	private static ProductList tested;
 	private static ProductStash stash;
-	private static Bucket bucket;
+	private static Customer customer;
 	
 	@BeforeClass
 	public static void init() {
 		stash = new ProductStash();
-		bucket = new Bucket();
-		tested = new ProductList(stash, bucket);
+		customer = new Customer("test", 999);
+		tested = new ProductList(stash, customer);
 	}
 	@Test
 	public void productListTest_hasNextAfterRequest_1_ExpectedTrue() {
@@ -42,7 +43,7 @@ public class ProductListActionTest {
 	@Test
 	public void productListTest_bucketListIsEmptyAfterRequest_ExpectedFlse() {
 		tested.acceptRequest("1");
-		Assert.assertFalse(bucket.getStash().isEmpty());
+		Assert.assertFalse(customer.getWarehouse().isEmpty());
 	}
 	@Test
 	public void productListTest_nextIsMainMenuInstance_ExpectedTrue() {
@@ -52,7 +53,7 @@ public class ProductListActionTest {
 	@Test
 	public void productListTest_nextIsBucketManamentInstance_ExpectedTrue() {
 		tested.acceptRequest("bucket");
-		Assert.assertTrue(tested.next() instanceof BucketManament);
+		Assert.assertTrue(tested.next() instanceof BucketManagment);
 	}
 	@Test
 	public void productListTest_exitRquest_ExpectedFalse() {
