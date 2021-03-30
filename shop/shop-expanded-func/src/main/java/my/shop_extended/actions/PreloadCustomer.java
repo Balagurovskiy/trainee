@@ -41,19 +41,24 @@ public class PreloadCustomer  extends AbstractAction{
 
 	@Override
 	public void acceptRequest(String request) {
-		if (request.equals("exit")) {
-			this.stop = true;
-		} else {
-			String newBucketFileName = request + ".bucket";
-			if (buckets.contains(newBucketFileName)) {
-				customer = (Customer) ByteLoader.read(newBucketFileName);
-				System.out.println("Using existed bucket.");
-			} else {
-				customer = new Customer(request, 100_500.0);
-				ByteLoader.write(newBucketFileName, customer);
-				System.out.println("Created new bucket.");
-			}
-			next = new MainMenu(stash, customer);
+		
+		switch(request) {
+	        case "exit":
+	        	this.stop = true;
+	            break;
+	        default:
+	        	String newBucketFileName = request + ".bucket";
+				if (buckets.contains(newBucketFileName)) {
+					customer = (Customer) ByteLoader.read(newBucketFileName);
+					System.out.println("Using existed bucket.");
+				} else {
+					customer = new Customer(request, 100_500.0);
+					ByteLoader.write(newBucketFileName, customer);
+					System.out.println("Created new bucket.");
+				}
+				next = new MainMenu(stash, customer);
+	            break;
 		}
+		
 	}
 }

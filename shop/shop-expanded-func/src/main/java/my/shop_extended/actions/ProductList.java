@@ -39,6 +39,14 @@ public class ProductList extends AbstractAction{
 
 	@Override
 	public void acceptRequest(String request) {
+		switch(request) {
+	        case "back":
+	        	next = new MainMenu(stash, customer);
+	            break;
+	        case "bucket":
+	        	next = new BucketManagment(stash, customer);
+	            break;
+		}
 		if (request.matches( "\\d+" )) {
 			int intRequest = Integer.parseInt(request);
 			if (intRequest < stash.getStash().size() && intRequest >= 0){
@@ -47,11 +55,6 @@ public class ProductList extends AbstractAction{
 				customer.buy(p);
 				ByteLoader.write(customer.getName() + ".bucket", customer);
 			}
-		} else if (request.equals("back")) {
-			next = new MainMenu(stash, customer);
-		} else if (request.equals("bucket")) {
-			next = new BucketManagment(stash, customer);
 		}
 	}
- 
 }

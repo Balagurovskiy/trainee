@@ -1,8 +1,5 @@
 package my.shop_extended.actions;
 
-import java.util.Objects;
-
-import my.shop_extended.customer.Bucket;
 import my.shop_extended.customer.Customer;
 import my.shop_extended.products.ProductStash;
 
@@ -26,12 +23,16 @@ public class MainMenu extends AbstractAction{
 
 	@Override
 	public void acceptRequest(String request) {
-		if (request.equals("exit")) {
-			this.stop = true;
-		} else if (request.equals("1")){
-			next = new ProductList(stash, customer);
-		} else if (request.equals("2")){
-			next = new BucketManagment(stash, customer);
+		switch(request) {
+	        case "exit":
+	        	this.stop = true;
+	            break;
+	        case "1":
+	        	next = new ProductList(stash, customer);
+	            break;
+	        case "2":
+	        	next = new BucketManagment(stash, customer);
+				break;
 		}
 	}
 }

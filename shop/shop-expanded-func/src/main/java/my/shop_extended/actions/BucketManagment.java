@@ -28,14 +28,19 @@ public class BucketManagment extends AbstractAction{
 
 	@Override
 	public void acceptRequest(String request) {
-		if (request.equals("back")) {
-			next = new MainMenu(stash, customer);
-		} else if (request.equals("clear")) {
-			customer.getWarehouse().clear();
-			ByteLoader.write(customer.getName() + ".bucket", customer);
-		} else {
-			customer.getWarehouse().remove(request);
-			ByteLoader.write(customer.getName() + ".bucket", customer);
-		}
+		
+		switch(request) {
+            case "back":
+            	next = new MainMenu(stash, customer);
+                break;
+            case "clear":
+            	customer.getWarehouse().clear();
+    			ByteLoader.write(customer.getName() + ".bucket", customer);
+                break;
+            default:
+            	customer.getWarehouse().remove(request);
+    			ByteLoader.write(customer.getName() + ".bucket", customer);
+    			break;
+        }
 	}
 }
