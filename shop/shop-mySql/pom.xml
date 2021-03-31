@@ -18,6 +18,7 @@
         <maven.compiler.version>3.8.1</maven.compiler.version>
         <jacoco.maven.version>0.8.4</jacoco.maven.version>
         <maven.surefire.version>2.22.2</maven.surefire.version>
+        <mysql.connector.version>8.0.18</mysql.connector.version>
     </properties>
  
     <dependencies>
@@ -26,6 +27,11 @@
 		    <artifactId>junit</artifactId>
 		    <version>${junit.version}</version>
 		    <scope>test</scope>
+		</dependency>
+		<dependency>
+		    <groupId>mysql</groupId>
+		    <artifactId>mysql-connector-java</artifactId>
+		    <version>${mysql.connector.version}</version>
 		</dependency>
     </dependencies>
 	

@@ -1,18 +1,21 @@
 package my.shop_structure.testing;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.Objects;
 
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import my.shop_extended.actions.BucketManagment;
-import my.shop_extended.actions.MainMenu;
-import my.shop_extended.actions.ProductList;
-import my.shop_extended.customer.Bucket;
-import my.shop_extended.customer.Customer;
-import my.shop_extended.products.ProductStash;
-import my.shop_extended.products.impl.Water;
+import my.shop.actions.BucketManagment;
+import my.shop.actions.MainMenu;
+import my.shop.actions.ProductList;
+import my.shop.customer.Bucket;
+import my.shop.customer.Customer;
+import my.shop.products.ProductStash;
+import my.shop.products.impl.Water;
 
 public class BucketManagmentActionTest {
 
@@ -24,7 +27,11 @@ public class BucketManagmentActionTest {
 	public static void init() {
 		stash = new ProductStash();
 		customer = new Customer("test",999);
-		tested = new BucketManagment(stash, customer);
+		try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/shop", "root", "1111")) {
+			tested = new BucketManagment(stash, customer, connection);
+		} catch (SQLException ex) {
+		    ex.printStackTrace();
+		}
 	}
 	@Test
 	public void bucketManamentTest_hasNextAfterRequest_2_ExpectedTrue() {
