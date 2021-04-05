@@ -92,9 +92,6 @@ public class BucketRepository {
 	public static void main(String[] args) {
 		try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/internet_shop", "root", "1111")) {
 			BucketRepository customerRepository = new BucketRepository(connection);
-//			for(Product c : customerRepository.getAllNotProcessedByCustomerId(2)) {
-//				System.out.println(c.getName() + "  " + c.getPrice().getAmount() + "  " + c.getPrice().getKoef()+ "  " + c.getPrice().getName());
-//			}
 			customerRepository.setToProcessedByCustomerId(2);
 		} catch (SQLException ex) {
 		    ex.printStackTrace();

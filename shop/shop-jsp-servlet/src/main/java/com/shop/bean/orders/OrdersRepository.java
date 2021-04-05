@@ -48,15 +48,4 @@ public class OrdersRepository {
 	    return p;
 	}
 	
-	public static void main(String[] args) {
-		try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/internet_shop", "root", "1111")) {
-			OrdersRepository customerRepository = new OrdersRepository(connection);
-			for(Order c : customerRepository.getCustomerHistory(2)) {
-				System.out.println(c.getProduct().getName() + "  " + c.getProduct().getPrice().getAmount() + "  " + c.getProduct().getPrice().getKoef()+ "  " + c.getProduct().getPrice().getName());
-			}
-		} catch (SQLException ex) {
-		    ex.printStackTrace();
-		}
-	}
-	
 }

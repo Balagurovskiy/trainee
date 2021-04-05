@@ -104,15 +104,4 @@ public class CustomerRepository {
 	    return customers;
 	}
 	
-	
-	public static void main(String[] args) {
-		try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/internet_shop", "root", "1111")) {
-			CustomerRepository customerRepository = new CustomerRepository(connection);
-			for(Customer c : customerRepository.getAll()) {
-				System.out.println(c.getName() + "  " + c.getCash().getAmount() + "  " + c.getCash().getKoef()+ "  " + c.getCash().getName());
-			}
-		} catch (SQLException ex) {
-		    ex.printStackTrace();
-		}
-	}
 }

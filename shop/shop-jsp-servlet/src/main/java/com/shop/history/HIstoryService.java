@@ -10,9 +10,6 @@ import com.shop.bean.orders.Order;
 import com.shop.bean.orders.OrdersRepository;
 
 public class HIstoryService {
-
-	
-//	 List<Order> getCustomerHistory
 	
 	public List<Order> getCustomerHistory(int customerId){
 		try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/internet_shop", "root", "1111")) {

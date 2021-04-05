@@ -28,7 +28,6 @@ public class BucketOrderSubmiter extends BucketAction {
     			
     			bucketService.updateCustomerCash(customer.getId(), sub);
     			customer.getCash().setAmount(sub);
-//    			req.getSession().setAttribute("customer", new CustomerCollectService().getCustomerById(customer.getId()));
     		}
     	}
 		try {
