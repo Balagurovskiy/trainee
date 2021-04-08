@@ -7,8 +7,6 @@ import javax.sql.DataSource;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 
-import com.shop.bucket.BucketMapper;
-
 public class BucketRepository {
 	
 	private DataSource dataSource;
@@ -17,6 +15,10 @@ public class BucketRepository {
 	public void setDataSource(DataSource dataSource) {
 		this.dataSource = dataSource;
 		jdbcTemplate = new JdbcTemplate(dataSource);
+	}
+	
+	public BucketRepository(DataSource dataSource) {
+		setDataSource(dataSource);
 	}
 	public void create(int customerId, int productId){
 		String sql = "INSERT INTO bucket (customerId, productId, processed) VALUES (?, ?, 0)";

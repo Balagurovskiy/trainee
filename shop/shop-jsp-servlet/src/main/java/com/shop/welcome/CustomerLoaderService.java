@@ -14,7 +14,7 @@ public class CustomerLoaderService {
 	public void setCustomerRepository(CustomerRepository customerRepository) {
 		this.customerRepository = customerRepository;
 	}
-	@Transactional
+	@Transactional(readOnly = true)
 	public List<Customer> getAll(){
         return customerRepository.getAll();
 	}

@@ -1,26 +1,26 @@
 package com.shop.bean.currency;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import javax.sql.DataSource;
+
+import org.springframework.jdbc.core.JdbcTemplate;
 
 public class CurrencyRepository {
 	
-	private Connection connection;
+	private DataSource dataSource;
+	private JdbcTemplate jdbcTemplate;
+
+	public void setDataSource(DataSource dataSource) {
+		this.dataSource = dataSource;
+		jdbcTemplate = new JdbcTemplate(dataSource);
+	}
 	
-	public CurrencyRepository(Connection connection) {
-		this.connection = connection;
+	public CurrencyRepository(DataSource dataSource) {
+		setDataSource(dataSource);
 	}
 	
 	public void insertCustomer(String name, double koef){
 		String sql = "INSERT INTO currency (name, koef) VALUES (?, ?)";
-	    try (PreparedStatement statement= connection.prepareStatement(sql)){
-		    statement.setString(1, name);
-		    statement.setDouble(2, koef);
-		    statement.execute();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+		jdbcTemplate.update(sql, new Object[]{name, koef});
 	}
 	
 }
