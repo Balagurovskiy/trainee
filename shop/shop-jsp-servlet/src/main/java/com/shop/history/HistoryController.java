@@ -1,25 +1,20 @@
 package com.shop.history;
 
-import java.io.IOException;
 import java.util.Objects;
 
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 
 import com.shop.bean.customer.Customer;
 
-public class HistoryController extends HttpServlet {
-
-	private static final long serialVersionUID = 649499693855800947L;
-
-	@Override
-	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		String destination = "WEB-INF/view/history.jsp";
-		RequestDispatcher requestDispatcher = req.getRequestDispatcher(destination);
+@Controller
+public class HistoryController {
+	
+	@GetMapping("/history")
+	protected String loadHistory(HttpServletRequest req) {
     	
 		Customer customer = null;
 		HttpSession session = req.getSession(false);
@@ -34,6 +29,6 @@ public class HistoryController extends HttpServlet {
         req.setAttribute("page_header", "INTERNET SHOP " + customerName + "'s history");
         req.setAttribute("message", "List processed orders:");
         
-		requestDispatcher.forward(req, resp);
+		return "history";
 	}
 }

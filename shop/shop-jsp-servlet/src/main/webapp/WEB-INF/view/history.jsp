@@ -13,7 +13,7 @@
 		<div class="jumbotron">
 			<h1 class="display-4">${page_header}</h1>
 			
-			<a class="btn btn-outline-black btn-lg" href="/shop-jsp-servlet/">Log out</a>
+			<a class="btn btn-outline-black btn-lg" href="/welcome">Log out</a>
 			<h1 class="lead">${message}</h1>
  			
 	 		<table class="table table-hover">
@@ -55,7 +55,7 @@
  			
  			<div class="container">
 			    <div class="col">
-			     	<form class="d-inline" action="/shop-jsp-servlet/account">
+			     	<form class="d-inline" action="/account">
 				  		<input class="btn btn-outline-dark btn-block btn-lg" type="submit" value="Back to Account">
 					</form>
 			    </div>

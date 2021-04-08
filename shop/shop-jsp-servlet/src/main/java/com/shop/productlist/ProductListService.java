@@ -13,6 +13,12 @@ import com.shop.bean.products.ProductRepository;
 
 public class ProductListService {
 
+	private BucketRepository bucketRepository;
+	
+	public void setBucketRepository(BucketRepository bucketRepository) {
+		this.bucketRepository = bucketRepository;
+	}
+	
 	public List<Product> getList() {
 		 List<Product> products = new ArrayList<>(20);
 	    try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/internet_shop", "root", "1111")) {
@@ -28,25 +34,15 @@ public class ProductListService {
 			throw new IllegalArgumentException();
 		}
 		if (productIdstr.matches("\\d+") ) {
-		    try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/internet_shop", "root", "1111")) {
-		    	new BucketRepository(connection).create(customerId, Integer.valueOf(productIdstr));
-			} catch (SQLException ex) {
-			    ex.printStackTrace();
-			}
+	    	bucketRepository.create(customerId, Integer.valueOf(productIdstr));
 		} else {
 			throw new IllegalArgumentException();
 		}
 	}
 	public int getBucketSize(int customerId) {
-		int size = 0;
 		if ( customerId < 1) {
 			throw new IllegalArgumentException();
 		}
-	    try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/internet_shop", "root", "1111")) {
-	    	size = new BucketRepository(connection).getAllNotProcessedByCustomerId(customerId).size();
-		} catch (SQLException ex) {
-		    ex.printStackTrace();
-		}
-		return size;
+		return bucketRepository.getAllNotProcessedByCustomerId(customerId).size();
 	}
 }

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:context="http://www.springframework.org/schema/context"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans
+  http://www.springframework.org/schema/beans/spring-beans.xsd
+  http://www.springframework.org/schema/context
+  http://www.springframework.org/schema/context/spring-context.xsd">
+ 
+ <!-- 		WELCOME		 -->
+ 	<bean id="customerRepository" class="com.shop.bean.customer.CustomerRepository">
+		<property name="dataSource" ref="dataSource"></property>
+	</bean>
+
+	<bean id="customerLoaderService" class="com.shop.welcome.CustomerLoaderService">
+		<property name="customerRepository" ref="customerRepository"></property>
+	</bean>
+ <!-- 		REGISTER		 -->
+ 	<bean id="customerRegistrationService" class="com.shop.register.CustomerRegistrationService">
+		<property name="customerRepository" ref="customerRepository"></property>
+	</bean>
+ <!-- 		ACCOUNT		 -->
+ 	<bean id="customerCollectService" class="com.shop.account.CustomerCollectService">
+		<property name="customerRepository" ref="customerRepository"></property>
+	</bean>
+ <!-- 		BUCKET		 -->
+ 	<bean id="bucketRepository" class=" com.shop.bean.orders.BucketRepository">
+		<property name="dataSource" ref="dataSource"></property>
+	</bean>
+	<bean id="bucketTransactionManager" class="com.shop.bucket.BucketTransactionManager">
+		<property name="customerRepository" ref="customerRepository"></property>
+		<property name="bucketRepository" ref="bucketRepository"></property>
+	</bean>
+	<bean id="bucketLoaderService" class="com.shop.bucket.BucketLoaderService">
+		<property name="bucketTransactionManager" ref="bucketTransactionManager"></property>
+	</bean>
+	<bean id="bucketCleanerManager" class="com.shop.bucket.BucketCleanerManager">
+		<property name="bucketRepository" ref="bucketRepository"></property>
+	</bean>
+	 <!-- 		PRODUCT LIST		 -->
+	<bean id="productListService" class="com.shop.productlist.ProductListService">
+		<property name="bucketRepository" ref="bucketRepository"></property>
+	</bean>
+	
+ <!-- 		BUCKET ACTIONS	 -->	
+
+
+ <!-- 		BUCKET ORDER SUBMITION	 -->
+	<bean id="bucketOrderSubmiter" class="com.shop.bucket.actions.BucketOrderSubmiter">
+		<constructor-arg value="buy"/>
+		<property name="bucketTransactionManager" ref="bucketTransactionManager"></property>
+	</bean>
+ <!-- 		BUCKET DELETE ONE ORDER	 -->
+	<bean id="bucketDelete" class="com.shop.bucket.actions.BucketDelete">
+		<constructor-arg value="delete"/>
+		<property name="bucketCleanerManager" ref="bucketCleanerManager"></property>
+		<property name="bucketLoaderService" ref="bucketLoaderService"></property>
+	</bean>
+	 <!-- 		BUCKET CLEAN ORDER LIST	 -->
+	<bean id="BucketCleaner" class="com.shop.bucket.actions.BucketCleaner">
+		<constructor-arg value="clean"/>
+		<property name="bucketCleanerManager" ref="bucketCleanerManager"></property>
+	</bean>
+	
+</beans>

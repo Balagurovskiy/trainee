@@ -1,35 +1,34 @@
 package com.shop.welcome;
 
-import java.io.IOException;
 import java.util.Objects;
 
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 
-public class WelcomeController extends HttpServlet {
+
+@Controller
+public class WelcomeController {
 	
-	private static final long serialVersionUID = -7757215982664550800L;
-
-	@Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+	@Autowired
+	private CustomerLoaderService customerLoaderService;
+	
+	@GetMapping({"/", "/welcome"})
+	public String welcome(HttpServletRequest req, Model model) {
 		HttpSession session = req.getSession();
     	if (Objects.nonNull(session)) {
     		session.invalidate();
     	}
-		String destination = "WEB-INF/view/welcome.jsp";
-		RequestDispatcher requestDispatcher = req.getRequestDispatcher(destination);
-		
-        req.setAttribute("page_header", "Welcome to the INTERNET SHOP!");
-        req.setAttribute("message", "Select registered customer or create new:");
+    	model.addAttribute("page_header", "Welcome to the INTERNET SHOP!");
+		model.addAttribute("message", "Select registered customer or create new:");
               
-        req.setAttribute("customers", new CostomerLoaderService().getAll());
-        
-        requestDispatcher.forward(req, resp);
-
-    }
+		model.addAttribute("customers", customerLoaderService.getAll());
+		
+		return "/welcome";
+	}
 }
+ 

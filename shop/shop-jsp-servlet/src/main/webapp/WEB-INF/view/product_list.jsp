@@ -20,7 +20,7 @@
 			</c:if>
 			
 			
-			<a class="btn btn-outline-black btn-lg" href="/shop-jsp-servlet/">Log out</a>
+			<a class="btn btn-outline-black btn-lg" href="/welcome">Log out</a>
 			<h1 class="lead">${message}</h1>
  			
 	 		<table class="table table-hover">
@@ -61,13 +61,13 @@
  			<div class="container">
 			  <div class="row">
 			    <div class="col">
-	     	  		<form class="d-inline" action="/shop-jsp-servlet/product_list" method="POST">
+	     	  		<form class="d-inline" action="/product_list" method="POST">
 			  			<input type="hidden" id="ordered_cache" name="ordered_cache"/>
 					  	<input class="btn btn-dark btn-block btn-lg" type="submit" value="Order">
 					</form>
 			    </div>
 			    <div class="col">
-			     	<form class="d-inline" action="/shop-jsp-servlet/account">
+			     	<form class="d-inline" action="/account">
 				  		<input class="btn btn-outline-dark btn-block btn-lg" type="submit" value="Back to Account">
 					</form>
 			    </div>

@@ -37,11 +37,11 @@
 			  </tbody>
 			</table>
 			
-	  		<form class="d-inline" action="/shop-jsp-servlet/register">
+	  		<form class="d-inline" action="/register">
 			  	<input class="btn btn-outline-primary btn-lg" type="submit" value="Register">
 			</form>
 			
-	  		<form class="d-inline" action="/shop-jsp-servlet/account">
+	  		<form class="d-inline" action="/account">
 	  			<input type="hidden" id="customer_cache" name="customer_cache"/>
 			  	<input class="btn btn-outline-dark btn-lg" type="submit" value="Sign in">
 			</form>

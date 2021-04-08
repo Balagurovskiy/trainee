@@ -1,32 +1,34 @@
 package com.shop.register;
 
-import java.io.IOException;
 import java.util.Objects;
 
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-public class RegisterController extends HttpServlet {
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
-	private static final long serialVersionUID = 4172273450116598396L;
-
-	@Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+@Controller
+public class RegisterController {
+	
+	@Autowired
+	private CustomerRegistrationService customerRegistrationService;
+	
+	@GetMapping("/register")
+    protected String loadView(HttpServletRequest req, HttpServletResponse resp){
 		req.getSession().invalidate();
-		String destination = "WEB-INF/view/register.jsp";
-		RequestDispatcher requestDispatcher = req.getRequestDispatcher(destination);
         
 		req.setAttribute("page_header", "New Customer in INTERNET SHOP!");
 	    req.setAttribute("message", "Enter your name please:");
-	        
-        requestDispatcher.forward(req, resp);
+        
+        return "/register";
     }
-	@Override
-	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+	
+	@PostMapping("/register")
+	protected String receiveName(HttpServletRequest req, HttpServletResponse resp) {
 
         String newName= req.getParameter("register_name");
         
@@ -34,15 +36,15 @@ public class RegisterController extends HttpServlet {
         	
         	HttpSession session = req.getSession(true);
         	
-        	session.setAttribute("customer", new CustomerRegistrationService().createAndReturn(newName));
+        	session.setAttribute("customer", customerRegistrationService.createAndReturn(newName));
         	session.setMaxInactiveInterval(5 * 60);
         	
-			resp.sendRedirect(req.getContextPath() + "/account");
+			return "redirect:/account";
 			
 		} else {
 			req.setAttribute("error", "Please dont leave that field blank");
 			req.setAttribute("hasError", true);
-			doGet(req, resp);
+			return loadView(req, resp);
 		}
 	}
 }
