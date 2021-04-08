@@ -1,37 +1,34 @@
 package com.shop.productlist;
 
-import java.io.IOException;
 import java.util.Objects;
 
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import com.shop.bean.customer.Customer;
 
-public class ProductListController extends HttpServlet {
-
-	private static final long serialVersionUID = 2168803790406142484L;
-	
-	@Override
-	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		String destination = "WEB-INF/view/product_list.jsp";
-		RequestDispatcher requestDispatcher = req.getRequestDispatcher(destination);
-
+@Controller
+public class ProductListController {
+	@Autowired
+	private ProductListService productListService;
+	@GetMapping("/product_list")
+	protected String loadList(HttpServletRequest req) {
     	
-    	req.setAttribute("products", new ProductListService().getList());
+    	req.setAttribute("products", productListService.getList());
     	
         req.setAttribute("page_header", "INTERNET SHOP Products");
         req.setAttribute("message", "List of available producs to order:");
         
-		requestDispatcher.forward(req, resp);
+		return "/product_list";
 	}
-	@Override
-	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		
+	
+	@PostMapping("/product_list")
+	protected String putToBucket(HttpServletRequest req) {
 		Customer customer = null;
 		HttpSession session = req.getSession(false);
     	if (Objects.nonNull(session)) {
@@ -41,9 +38,9 @@ public class ProductListController extends HttpServlet {
     	
     	String productId = req.getParameter("ordered_cache");
     	req.setAttribute("ordered", true);
-    	new ProductListService().putToTheBucket(customer.getId(), productId);
-    	req.setAttribute("bucket_size", new ProductListService().getBucketSize(customer.getId()));
+    	productListService.putToTheBucket(customer.getId(), productId);
+    	req.setAttribute("bucket_size", productListService.getBucketSize(customer.getId()));
     	
-		doGet(req, resp);
+    	return loadList(req);
 	}
 }

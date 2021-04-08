@@ -19,10 +19,10 @@
 				 	${error} !
 				</div>
 			</c:if>
-	  		<form class="d-inline" action="/shop-jsp-servlet/register" method="post">
+	  		<form class="d-inline" action="/register" method="post">
 	  			<input type="text" id="register_name" name="register_name"/>
 			  	<input class="btn btn-outline-primary btn-lg" type="submit" value="Create">
-			  	<a class="btn btn-outline-black btn-lg" href="/shop-jsp-servlet/">Back</a>
+			  	<a class="btn btn-outline-black btn-lg" href="/welcome">Back</a>
 			</form>
  		</div>
 	    
