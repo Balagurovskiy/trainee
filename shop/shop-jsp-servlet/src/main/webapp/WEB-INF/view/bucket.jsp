@@ -32,8 +32,9 @@
 	   		  	<tr onclick="from_th_to_hidden(this, 'bucket_cache');">
 			      <th>${c.id}</th>
 			      <td>${c.product.name}</td>
-			      <td>${c.product.price.amount}</td>
-			      <td>${c.product.price.name}</td>
+ 
+     			  <td>${c.product.price}</td>
+			      <td>${c.product.currency.name}</td>
 			      <td>			
 					<c:choose>
 					  <c:when test="${c.product.eatable}">

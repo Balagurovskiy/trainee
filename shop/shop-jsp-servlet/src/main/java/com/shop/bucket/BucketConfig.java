@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Configuration;
 
 import com.shop.bean.customer.CustomerRepository;
 import com.shop.bean.orders.BucketRepository;
+import com.shop.bean.orders.BucketRepositoryCriteria;
 import com.shop.bucket.actions.BucketAction;
 import com.shop.bucket.actions.BucketCleaner;
 import com.shop.bucket.actions.BucketDelete;
@@ -21,10 +22,12 @@ public class BucketConfig {
 	
 	@Bean
 	public BucketTransactionManager bucketTransactionManager(CustomerRepository customerRepository,
-																BucketRepository bucketRepository) {
+																BucketRepository bucketRepository,
+																BucketRepositoryCriteria bucketRepositoryCriteria) {
 		BucketTransactionManager btm = new BucketTransactionManager();
 		btm.setBucketRepository(bucketRepository);
 		btm.setCustomerRepository(customerRepository);
+		btm.setBucketRepositoryCriteria(bucketRepositoryCriteria);
 		return btm;
 	}
 	@Bean

@@ -1,6 +1,8 @@
 package com.shop.bean.products;
 
+
 import com.shop.bean.currency.Currency;
+
 
 public class Product {
 	private int id;

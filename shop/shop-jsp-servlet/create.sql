@@ -42,6 +42,12 @@ CREATE TABLE `internet_shop`.`customers` (
   UNIQUE KEY `id_UNIQUE` (`id`)
 ) 
 
+CREATE TABLE `internet_shop`.`country` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `id_UNIQUE` (`id` ASC) VISIBLE);
+  
 DROP TRIGGER IF EXISTS save_processed_order;
 
 DELIMITER $$
