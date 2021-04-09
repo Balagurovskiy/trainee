@@ -22,7 +22,7 @@ public class BucketTransactionManager {
 	public void setBucketRepository(BucketRepository bucketRepository) {
 		this.bucketRepository = bucketRepository;
 	}
-	@Transactional
+	@Transactional(readOnly = true)
 	public List<Order> getList(int customerId) {
 		return bucketRepository.getAllNotProcessedByCustomerId(customerId);
 	}
@@ -35,7 +35,6 @@ public class BucketTransactionManager {
 	public void updateCustomerCash(int customerId, double amount) {
 		customerRepository.updateCash(customerId, amount);
 	}
-	@Transactional
 	public double totalPrice(List<Order> products, Currency tagetCurrency) {
 		return products.stream()
 						.map(Order::getProduct)
