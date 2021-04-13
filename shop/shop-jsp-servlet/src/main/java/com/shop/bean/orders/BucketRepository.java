@@ -1,56 +1,52 @@
 package com.shop.bean.orders;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import javax.sql.DataSource;
+import javax.persistence.EntityManager;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 
-import org.springframework.jdbc.core.JdbcTemplate;
 
 public class BucketRepository {
-	
-	private DataSource dataSource;
-	private JdbcTemplate jdbcTemplate;
+ 
+	private EntityManager entityManager;
 
-	public void setDataSource(DataSource dataSource) {
-		this.dataSource = dataSource;
-		jdbcTemplate = new JdbcTemplate(dataSource);
+	public void setEntityManager(EntityManager entityManager) {
+		this.entityManager = entityManager;
 	}
 	
-	public BucketRepository(DataSource dataSource) {
-		setDataSource(dataSource);
+	public BucketRepository(EntityManager entityManager) {
+		setEntityManager(entityManager);
 	}
+	
 	public void create(int customerId, int productId){
+		entityManager.getTransaction().begin();
 		String sql = "INSERT INTO bucket (customerId, productId, processed) VALUES (?, ?, 0)";
-		jdbcTemplate.update(sql, new Object[]{customerId, productId});
+		entityManager.createNativeQuery(sql)
+						.setParameter(1, customerId)
+						.setParameter(2, productId)
+						.executeUpdate();
+		entityManager.getTransaction().commit();
+	}
+	public void process(int customerId){
+		entityManager.getTransaction().begin();
+		String sql = "UPDATE bucket SET processed=1 WHERE customerId=?";
+		entityManager.createNativeQuery(sql)
+						.setParameter(1, customerId)
+						.executeUpdate();
+		entityManager.getTransaction().commit();
+	}
+	@SuppressWarnings("unchecked")
+	public List<Bucket> getAllNotProcessedByCustomerId(int customerId) {
+		CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+		CriteriaQuery<Bucket> personCriteria = cb.createQuery(Bucket.class);
+		Root<Bucket> personRoot = personCriteria.from(Bucket.class);
+		personCriteria.select(personRoot);
+		personCriteria.where(cb.equal(personRoot.get("customer").get("id"), customerId));
+		
+		return entityManager.createQuery(personCriteria).getResultList();
 	}
 	
-	public List<Order> getAllNotProcessedByCustomerId(int customerId) {
-	    List<Order> p = new ArrayList<>();
-		String sql = "SELECT * FROM internet_shop.bucket "
-						+"JOIN internet_shop.products ON productId = products.id "
-					    +"JOIN internet_shop.currency ON products.currencyId = currency.id "
-					+"WHERE customerId = ? AND processed = 0";
-		return jdbcTemplate.query(sql,
-		        new Object[]{customerId},
-		        new BucketMapper()
-		        );
-	}
-	
-	public void clearProcessedOrders(int customerId){
-		String sql = "DELETE FROM internet_shop.bucket  WHERE processed=1 AND customerId=?";
-		jdbcTemplate.update(sql, new Object[]{customerId});
-	}
-	public void removeOrderById(int orderId){
-		String sql = "DELETE FROM internet_shop.bucket  WHERE id=?";
-		jdbcTemplate.update(sql, new Object[]{orderId});
-	}
-	public void clearUnProcessedOrders(int customerId){
-		String sql = "DELETE FROM internet_shop.bucket  WHERE processed=0 AND customerId=?";
-		jdbcTemplate.update(sql, new Object[]{customerId});
-	}
-	public void setToProcessedByCustomerId(int customerId){
-		String sql = "UPDATE internet_shop.bucket SET processed=1 WHERE customerId=?";
-		jdbcTemplate.update(sql, new Object[]{customerId});
-	}
+ 
 }

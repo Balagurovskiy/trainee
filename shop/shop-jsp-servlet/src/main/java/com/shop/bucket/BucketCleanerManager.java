@@ -2,19 +2,19 @@ package com.shop.bucket;
 
 import org.springframework.transaction.annotation.Transactional;
 
-import com.shop.bean.orders.BucketRepository;
+import com.shop.bean.customer.Customer;
 
 public class BucketCleanerManager {
-	private BucketRepository bucketRepository;
-	public void setBucketRepository(BucketRepository bucketRepository) {
-		this.bucketRepository = bucketRepository;
+	private BucketTransactionManager bucketTransactionManager;
+	public void setBucketTransactionManager(BucketTransactionManager bucketTransactionManager) {
+		this.bucketTransactionManager = bucketTransactionManager;
 	}
 	@Transactional
-	public void clean(int customerId) {
-    	bucketRepository.clearUnProcessedOrders(customerId);
+	public void clean(Customer customer) {
+		bucketTransactionManager.clearBucket(customer);
 	}
 	@Transactional
-	public void cleanById(int orderId) {
-    	bucketRepository.removeOrderById(orderId);
+	public void cleanById(Customer customer, int bucketId) {
+		bucketTransactionManager.deleteFromBucket(customer, bucketId);
 	}
 }

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import com.shop.account.CustomerCollectService;
 import com.shop.bean.customer.Customer;
 import com.shop.bucket.actions.BucketAction;
  
@@ -20,7 +21,8 @@ public class BucketController {
 	private List<BucketAction> ACTIONS;
 	
 	private Customer customer;
-	
+	@Autowired
+	private CustomerCollectService customerCollectService;
 	@Autowired
 	private BucketLoaderService bucketLoaderService;
 	
@@ -30,13 +32,15 @@ public class BucketController {
     		customer = (Customer) session.getAttribute("customer");
         	session.setMaxInactiveInterval(5 * 60);
     	}
+		customer = customerCollectService.getCustomerById(customer.getId());
 	}
 	@GetMapping("/bucket")
     protected String loadBucketList(HttpServletRequest req) {
 		loadCustomer(req);
     	if (Objects.nonNull(customer)) {
     		return bucketLoaderService.sendBucketList(req, customer);
-    	} return "/welcome";
+    	} 
+    	return "/welcome";
     }
 
 	@PostMapping("/bucket")
@@ -49,6 +53,7 @@ public class BucketController {
 										return a.execute(req);
 									})
 									.findAny();
+		
 		return ( redirect.isPresent() ) ? redirect.get() : "";
 				
 	}

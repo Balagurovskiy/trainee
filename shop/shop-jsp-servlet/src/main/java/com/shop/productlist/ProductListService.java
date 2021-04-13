@@ -24,13 +24,20 @@ public class ProductListService {
 	public List<Product> getList() {
     	return productRepository.getAll();
 	}
-	@Transactional
+	@Transactional(readOnly = true)
+	public List<Product> getListFood() {
+    	return productRepository.getAllFood();
+	}
+	@Transactional(readOnly = true)
+	public List<Product> getListStuff() {
+    	return productRepository.getAllStuff();
+	}
 	public void putToTheBucket(int customerId, String productIdstr) {
 		if (Objects.isNull(productIdstr) || customerId < 1) {
 			throw new IllegalArgumentException();
 		}
 		if (productIdstr.matches("\\d+") ) {
-	    	bucketRepository.create(customerId, Integer.valueOf(productIdstr));
+	    	bucketRepository.create(customerId, Integer.parseInt(productIdstr));
 		} else {
 			throw new IllegalArgumentException();
 		}

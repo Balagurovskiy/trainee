@@ -1,47 +1,74 @@
 package com.shop.bean.customer;
 
+import java.util.ArrayList;
 import java.util.List;
-import javax.annotation.PostConstruct;
+
 import javax.persistence.EntityManager;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
+import com.shop.bean.currency.CurrencyEntity;
 
-import com.shop.EntityManagerProvider;
-
-@Repository
-public class CustomerRepositoryJpa {
-	
-	@Autowired 
-	private EntityManagerProvider entityManagerProvider;
+public class CustomerRepositoryJpa implements CustomerRepository{
 	
 	private EntityManager entityManager;
-	
-	@PostConstruct
-	public void init() {
-		entityManager = entityManagerProvider.get();
-	}
- 	
-	public List<CustomerEntity> findAll() {
-		return entityManager.createQuery("SELECT c FROM CustomerEntity c").getResultList();
+
+	public void setEntityManager(EntityManager entityManager) {
+		this.entityManager = entityManager;
 	}
 	
-	public int count() {
-		return (int) entityManager.createQuery("SELECT COUNT(c) FROM CustomerEntity c").getSingleResult();
+	public CustomerRepositoryJpa(EntityManager entityManager) {
+		setEntityManager(entityManager);
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Customer> findAll() {
+		return  entityManager
+						.createQuery("SELECT c FROM Customer c")
+						.getResultList();
+	}
+	
+	public long count(String name) {
+		return (long) entityManager.createQuery("SELECT COUNT(c) FROM Customer c WHERE c.name = :name").setParameter("name", name).getSingleResult();
 	}
 	
 	public void create(String name, double cash, int currencyId) {
-		String sql = "INSERT INTO internet_shop.customers (name, cash, currencyId, pass) VALUES (?, ?, ?, '111')";
-		entityManager.createNativeQuery(sql)
-	    .setParameter(1, name)
-	    .setParameter(2, cash)
-	    .setParameter(3, currencyId)
-	    .executeUpdate();
+		entityManager.getTransaction().begin();
+		Customer customerEntity = new Customer();
+		customerEntity.setBucket(new ArrayList<>());
+		customerEntity.setOrders(new ArrayList<>());
+		customerEntity.setCash(cash);
+		customerEntity.setName(name);
+		customerEntity.setCurrency(entityManager.find(CurrencyEntity.class, currencyId));
+		customerEntity.setPass("password");
+		entityManager.persist(customerEntity);
+		entityManager.getTransaction().commit();
 	}
 	
-	public CustomerEntity getByName(String name){
-		String query = "SELECT c FROM CustomerEntity c WHERE LOWER(a.name) = LOWER(:name)";
-		return (CustomerEntity) entityManager.createQuery(query)
-												.setParameter("name", name)
-												.getSingleResult();
+	@SuppressWarnings("unchecked")
+	public Customer getByName(String name){
+		String query = "SELECT c FROM Customer c WHERE c.name=(:name)";
+		return (Customer) entityManager.createQuery(query)
+											.setParameter("name", name)
+											.getResultList()
+											.stream()
+												.findFirst()
+												.orElse(null);
+	}
+
+	public Customer getById(int id) {
+		return (Customer) entityManager.find(Customer.class, id);
+	}
+	public Customer getAndRefresh(Customer customer) {
+		entityManager.refresh(customer);
+		return (Customer) entityManager.find(Customer.class, customer.getId());
+	}
+	
+	public EntityManager callManager() {
+		return entityManager;
+	}
+
+	public void updateCash(Customer customer, double amount) {
+		entityManager.persist(customer);;
+		entityManager.getTransaction().begin();
+		customer.setCash(amount);
+		entityManager.getTransaction().commit();
 	}
 }

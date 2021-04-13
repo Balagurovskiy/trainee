@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import com.shop.bean.currency.Currency;
 import com.shop.bean.customer.Customer;
 
 @Controller
@@ -31,12 +30,13 @@ public class AccountController {
     	if (Objects.isNull(customer)) {
     		String id = req.getParameter("customer_cache");
     		customer = customerCollectService.getCustomerById(id);
+    	} else {
+    		customer = customerCollectService.getAndRefreshCustomer(customer);
     	}
     	
     	if (Objects.nonNull(customer)) {
         	req.setAttribute("customer", customer);
-        	Currency curr = customer.getCash();
-        	req.setAttribute("balance", curr.getAmount() + " " + curr.getName());
+        	req.setAttribute("balance", customer.getCash() + " " + customer.getCurrency().getName());
         	
             req.setAttribute("page_header", "INTERNET SHOP " + customer.getName() + "'s Account!");
             req.setAttribute("message", "Select from options below:");

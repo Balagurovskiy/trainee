@@ -16,6 +16,6 @@ public class CustomerLoaderService {
 	}
 	@Transactional(readOnly = true)
 	public List<Customer> getAll(){
-        return customerRepository.getAll();
+        return customerRepository.findAll();
 	}
 }

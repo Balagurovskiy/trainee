@@ -14,6 +14,7 @@ public class CustomerCollectService {
 	public void setCustomerRepository(CustomerRepository customerRepository) {
 		this.customerRepository = customerRepository;
 	}
+	
 	@Transactional
 	public Customer getCustomerById(String idstr) {
 		if (Objects.nonNull(idstr) && idstr.matches("\\d+")) {
@@ -23,7 +24,15 @@ public class CustomerCollectService {
 	    return null;
 	}
 	@Transactional
+	public Customer getCustomerByName(String name) {
+		return customerRepository.getByName(name);
+	}
+	@Transactional
 	public Customer getCustomerById(int id) {
 		return customerRepository.getById(id);
+	}
+	@Transactional
+	public Customer getAndRefreshCustomer(Customer customer) {
+		return customerRepository.getAndRefresh(customer);
 	}
 }

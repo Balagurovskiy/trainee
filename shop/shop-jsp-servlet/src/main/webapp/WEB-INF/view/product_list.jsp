@@ -30,29 +30,32 @@
 			      <th scope="col">Name</th>
 			      <th scope="col">Price</th>
 			      <th scope="col">Currency</th>
-			      <th scope="col">Eatable</th>
 			    </tr>
 			  </thead>
 	  		  <tbody>
-	  			
-		 	<c:forEach var="c" items="${products}" >
+	  			<tr>
+			      <th scope="col" class="alert alert-secondary" colspan="4">Food</th>
+			    </tr>
+		 	<c:forEach var="c" items="${food}" >
 	   		  	<tr onclick="from_th_to_hidden(this, 'ordered_cache');">
 			      <th>${c.id}</th>
 			      <td>${c.name}</td>
-			      <td>${c.price.amount}</td>
-			      <td>${c.price.name}</td>
-			      <td>			
-					<c:choose>
-					  <c:when test="${c.eatable}">
-					    <div class="p-3 bg-success text-white"></div>
-					  </c:when>
-					  <c:otherwise>
-					    <div class="p-3 bg-danger text-white"></div>
-					  </c:otherwise>
-					</c:choose>
-				</td>
+			      <td>${c.price}</td>
+			      <td>${c.currency.name}</td>
 			    </tr>
 	   		</c:forEach>
+	   			<tr>
+			      <th scope="col"  class="alert alert-secondary" colspan="4">Stuff</th>
+			    </tr>
+			<c:forEach var="c" items="${stuff}" >
+	   		  	<tr onclick="from_th_to_hidden(this, 'ordered_cache');">
+			      <th>${c.id}</th>
+			      <td>${c.name}</td>
+			      <td>${c.price}</td>
+			      <td>${c.currency.name}</td>
+			    </tr>
+	   		</c:forEach>
+	   		
 	   		
 			  </tbody>
 			</table>

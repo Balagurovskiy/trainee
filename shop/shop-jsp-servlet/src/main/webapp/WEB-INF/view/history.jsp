@@ -24,7 +24,6 @@
 			      <th scope="col">Price</th>
 			      <th scope="col">Currency</th>
 			      <th scope="col">Order Date</th>
-			      <th scope="col">Eatable</th>
 			    </tr>
 			  </thead>
 	  		  <tbody>
@@ -33,19 +32,9 @@
 	   		  	<tr>
 			      <th>${c.id}</th>
 			      <td>${c.product.name}</td>
-			      <td>${c.product.price.amount}</td>
-			      <td>${c.product.price.name}</td>
+			      <td>${c.product.price}</td>
+			      <td>${c.product.currency.name}</td>
 			      <td>${c.date}</td>
-			      <td>			
-					<c:choose>
-					  <c:when test="${c.product.eatable}">
-					    <div class="p-3 bg-success text-white"></div>
-					  </c:when>
-					  <c:otherwise>
-					    <div class="p-3 bg-danger text-white"></div>
-					  </c:otherwise>
-					</c:choose>
-				</td>
 			    </tr>
 	   		</c:forEach>
 	   		
