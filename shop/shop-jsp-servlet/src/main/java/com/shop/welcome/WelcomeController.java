@@ -17,9 +17,13 @@ public class WelcomeController {
 	@Autowired
 	private CustomerLoaderService customerLoaderService;
 	
+
+ 
 	@GetMapping({"/", "/welcome"})
 	public String welcome(HttpServletRequest req, Model model) {
+		
 		HttpSession session = req.getSession();
+		
     	if (Objects.nonNull(session)) {
     		session.invalidate();
     	}

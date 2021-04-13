@@ -5,7 +5,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import com.shop.bean.customer.Customer;
-import com.shop.bean.orders.Order;
+import com.shop.bean.orders.BucketEntity;
 
 public class BucketLoaderService {
 	private BucketTransactionManager bucketTransactionManager;
@@ -15,10 +15,9 @@ public class BucketLoaderService {
 	public String sendBucketList(HttpServletRequest req, Customer customer) {
 		req.setAttribute("page_header", "INTERNET SHOP " + customer.getName() + "'s bucket.");
 	    req.setAttribute("message", "Order Submition. Available cash : " + customer.getCash().getAmount() + " " +customer.getCash().getName() );
-	   
-	    List<Order> products = bucketTransactionManager.getList(customer.getId());
+	    List<BucketEntity> products = bucketTransactionManager.getListCriteria(customer.getId());
 	    req.setAttribute("bucket", products);
-	    req.setAttribute("total", bucketTransactionManager.totalPrice( products, customer.getCash() ));
+	    req.setAttribute("total", bucketTransactionManager.totalPriceEntity( products, customer.getCash().getKoef() ));
 	    return "/bucket";
 	}
 }
