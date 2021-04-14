@@ -28,8 +28,7 @@ public class AccountController {
         	session.setMaxInactiveInterval(5 * 60);
     	} 
     	if (Objects.isNull(customer)) {
-    		String id = req.getParameter("customer_cache");
-    		customer = customerCollectService.getCustomerById(id);
+    		customer = customerCollectService.getCustomerById(req.getParameter("customer_cache"));
     	} else {
     		customer = customerCollectService.getAndRefreshCustomer(customer);
     	}

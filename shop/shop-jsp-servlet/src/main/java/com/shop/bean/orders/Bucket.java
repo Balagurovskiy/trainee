@@ -12,9 +12,14 @@ import javax.persistence.Table;
 import com.shop.bean.customer.Customer;
 import com.shop.bean.products.Product;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @Table(name = "bucket")
+@Getter @Setter @NoArgsConstructor
 public class Bucket{
 	@Id
 	private int id;
@@ -26,23 +31,4 @@ public class Bucket{
 	@ManyToOne
     @JoinColumn(name="customerId")
 	private Customer customer;
-	
-	public int getId() {
-		return id;
-	}
-	public void setId(int id) {
-		this.id = id;
-	}
-	public Product getProduct() {
-		return product;
-	}
-	public void setProduct(Product product) {
-		this.product = product;
-	}
-	public Customer getCustomer() {
-		return customer;
-	}
-	public void setCustomer(Customer customer) {
-		this.customer = customer;
-	}
 }

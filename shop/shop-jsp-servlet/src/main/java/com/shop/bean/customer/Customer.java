@@ -15,8 +15,13 @@ import com.shop.bean.currency.CurrencyEntity;
 import com.shop.bean.orders.Bucket;
 import com.shop.bean.orders.Order;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 @Entity
 @Table(name = "customers")
+@Getter @Setter @NoArgsConstructor
 public class Customer extends MappedEntity{
 	
 	@Column
@@ -32,36 +37,5 @@ public class Customer extends MappedEntity{
 	
 	@OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
 	private List<Order> orders;
-	
-	public double getCash() {
-		return cash;
-	}
-	public void setCash(double cash) {
-		this.cash = cash;
-	}
-	public CurrencyEntity getCurrency() {
-		return currency;
-	}
-	public void setCurrency(CurrencyEntity currency) {
-		this.currency = currency;
-	}
-	public String getPass() {
-		return pass;
-	}
-	public void setPass(String pass) {
-		this.pass = pass;
-	}
-	public List<Bucket> getBucket() {
-		return bucket;
-	}
-	public void setBucket(List<Bucket> bucket) {
-		this.bucket = bucket;
-	}
-	public List<Order> getOrders() {
-		return orders;
-	}
-	public void setOrders(List<Order> orders) {
-		this.orders = orders;
-	}
-	
+		
 }

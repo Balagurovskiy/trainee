@@ -15,11 +15,16 @@ import com.shop.MappedEntity;
 import com.shop.bean.country.CountryEntity;
 import com.shop.bean.currency.CurrencyEntity;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "eatable")
 @Entity
 @Table(name = "products")
+@Getter @Setter @NoArgsConstructor
 public class Product extends MappedEntity{
 	@Column
 	private double price;
@@ -33,23 +38,4 @@ public class Product extends MappedEntity{
 	    inverseJoinColumns = { @JoinColumn(name = "countryId") })
 	private CountryEntity country;
 	
-	
-	public CountryEntity getCountry() {
-		return country;
-	}
-	public void setCountry(CountryEntity country) {
-		this.country = country;
-	}
-	public double getPrice() {
-		return price;
-	}
-	public void setPrice(double price) {
-		this.price = price;
-	}
-	public CurrencyEntity getCurrency() {
-		return currency;
-	}
-	public void setCurrency(CurrencyEntity currency) {
-		this.currency = currency;
-	}
 }

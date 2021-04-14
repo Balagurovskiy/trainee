@@ -20,13 +20,22 @@
 		<java.version>1.8</java.version>
 		<jstl.version>1.2</jstl.version>
 		<mysql.connector.version>8.0.18</mysql.connector.version>
+		<lombok.ver>1.16.16</lombok.ver>
+		<log4j.ver>1.2.16</log4j.ver>
 	</properties>
 
 	<dependencies>
+	
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		
 	    <dependency>
 	        <groupId>log4j</groupId>
 	        <artifactId>log4j</artifactId>
-	        <version>1.2.16</version>
+	        <version>${log4j.ver}</version>
 	    </dependency>
  
     

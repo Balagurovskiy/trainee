@@ -5,8 +5,13 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 @Entity
 @Table(name = "currency")
+@Getter @Setter @NoArgsConstructor
 public class CurrencyEntity {
 	@Id
 	private int id;
@@ -22,29 +27,5 @@ public class CurrencyEntity {
 			multiplier = koef / this.koef;
 		}
 		return amount * multiplier;
-	}
-	
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public double getKoef() {
-		return koef;
-	}
-
-	public void setKoef(double koef) {
-		this.koef = koef;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
 	}
 }
