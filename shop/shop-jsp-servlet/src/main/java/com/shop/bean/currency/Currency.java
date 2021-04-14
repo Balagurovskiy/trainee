@@ -12,6 +12,12 @@ public class Currency {
 		this.koef = koef;
 		this.name = name;
 	}
+	public Currency(int id, String name, double amount, double koef) {
+		this.id = id;
+		this.amount = amount;
+		this.koef = koef;
+		this.name = name;
+	}
   
 	public double convertTo(double koef) {
 		double multiplier = 1.0;

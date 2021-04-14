@@ -1,15 +1,15 @@
 package com.shop.bean.products;
 
-import javax.sql.DataSource;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import com.shop.EntityManagerProvider;
 
 @Configuration
 public class ProductConfig {
 	
 	@Bean
-	public ProductRepository productRepository(DataSource dataSource) {
-		return new ProductRepository(dataSource);
+	public ProductRepository productRepository(EntityManagerProvider entityManagerProvider) {
+		return new ProductRepository(entityManagerProvider.get());
 	}
 }

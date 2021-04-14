@@ -2,33 +2,35 @@ package com.shop.bean.orders;
 
 import java.util.List;
 
-import javax.sql.DataSource;
-
-import org.springframework.jdbc.core.JdbcTemplate;
+import javax.persistence.EntityManager;
 
 public class OrdersRepository {
-	private DataSource dataSource;
-	private JdbcTemplate jdbcTemplate;
 
-	public void setDataSource(DataSource dataSource) {
-		this.dataSource = dataSource;
-		jdbcTemplate = new JdbcTemplate(dataSource);
+	private EntityManager entityManager;
+
+	public void setEntityManager(EntityManager entityManager) {
+		this.entityManager = entityManager;
 	}
 	
-	public OrdersRepository(DataSource dataSource) {
-		setDataSource(dataSource);
+	public OrdersRepository(EntityManager entityManager) {
+		setEntityManager(entityManager);
 	}
+	
 	
 	public void create(int customerId, int productId){
 		String sql = "INSERT INTO orders (customerId, productId, processed_date) VALUES (?, ?, CURDATE())";
-		jdbcTemplate.update(sql, new Object[]{customerId, productId});
-	}
-	public List<Order> getCustomerHistory(int customerId) {
-		String sql = "CALL internet_shop.get_customer_history(?)";
-		return jdbcTemplate.query(sql,
-			        new Object[]{customerId},
-			        new OrderMapper()
-		        );
+		entityManager.createNativeQuery(sql)
+						.setParameter(1, customerId)
+						.setParameter(2, productId)
+						.executeUpdate();
 	}
 	
+	
+	@SuppressWarnings("unchecked")
+	public List<Order> getCustomerHistory(int customerId) {
+		String sql = "CALL internet_shop.get_customer_history(?)";
+		return entityManager.createNativeQuery(sql)
+				.setParameter(1, customerId)
+				.getResultList();
+	}
 }

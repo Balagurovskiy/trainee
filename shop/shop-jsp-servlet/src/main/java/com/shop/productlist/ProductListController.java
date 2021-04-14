@@ -19,7 +19,8 @@ public class ProductListController {
 	@GetMapping("/product_list")
 	protected String loadList(HttpServletRequest req) {
     	
-    	req.setAttribute("products", productListService.getList());
+    	req.setAttribute("food", productListService.getListFood());
+    	req.setAttribute("stuff", productListService.getListStuff());
     	
         req.setAttribute("page_header", "INTERNET SHOP Products");
         req.setAttribute("message", "List of available producs to order:");

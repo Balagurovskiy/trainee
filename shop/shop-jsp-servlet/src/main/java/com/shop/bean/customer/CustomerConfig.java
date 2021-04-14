@@ -1,14 +1,15 @@
 package com.shop.bean.customer;
 
-import javax.sql.DataSource;
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import com.shop.EntityManagerProvider;
+
 @Configuration
 public class CustomerConfig {
+
 	@Bean
-	public CustomerRepository customerRepository(DataSource datasource) {
-		return new CustomerRepository(datasource);
+	public CustomerRepository customerRepositoryJpa(EntityManagerProvider entityManagerProvider) {
+		return new CustomerRepositoryJpa(entityManagerProvider.get());
 	}
 }

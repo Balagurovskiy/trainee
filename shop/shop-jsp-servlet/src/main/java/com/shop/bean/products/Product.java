@@ -1,52 +1,41 @@
 package com.shop.bean.products;
 
 
-import com.shop.bean.currency.Currency;
+import javax.persistence.Column;
+import javax.persistence.DiscriminatorColumn;
+import javax.persistence.Entity;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+import com.shop.MappedEntity;
+import com.shop.bean.country.CountryEntity;
+import com.shop.bean.currency.CurrencyEntity;
+
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 
-public class Product {
-	private int id;
-	private String name;
-	private Currency price;
-	private boolean eatable;
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "eatable")
+@Entity
+@Table(name = "products")
+@Getter @Setter @NoArgsConstructor
+public class Product extends MappedEntity{
+	@Column
+	private double price;
+	@ManyToOne
+    @JoinColumn(name="currencyId", nullable=false)
+	private CurrencyEntity currency;
 	
-	public Product(int id, String name, Currency price, int eatable) {
-		 this.eatable = (eatable == 1) ? true : false;
-		 this.id = id;
-		 this.name = name;
-		 this.price = price;
-	}
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public Currency getPrice() {
-		return price;
-	}
-
-	public void setPrice(Currency price) {
-		this.price = price;
-	}
-
-	public boolean isEatable() {
-		return eatable;
-	}
-
-	public void setEatable(boolean eatable) {
-		this.eatable = eatable;
-	}
+	@ManyToOne
+	@JoinTable(name = "product_country", 
+	    joinColumns = { @JoinColumn(name = "productId") }, 
+	    inverseJoinColumns = { @JoinColumn(name = "countryId") })
+	private CountryEntity country;
 	
 }

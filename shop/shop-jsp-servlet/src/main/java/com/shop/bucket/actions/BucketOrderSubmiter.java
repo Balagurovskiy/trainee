@@ -24,17 +24,18 @@ public class BucketOrderSubmiter extends BucketAction {
 	public String execute(HttpServletRequest req) {
 		 
     	if (Objects.nonNull(customer)) {
-    		double total = bucketTransactionManager.totalPrice( 
-    										bucketTransactionManager.getList(customer.getId()), 
-    										customer.getCash() 
+    		double total = bucketTransactionManager.totalPriceEntity( 
+    										customer.getBucket(), 
+    										customer.getCurrency().getKoef() 
     										);
-    		double sub = customer.getCash().getAmount() - total;
+    		double sub = customer.getCash() - total;
     		if (sub > 0.0) {
-    			bucketTransactionManager.submitOrder(customer.getId());
     			
-    			bucketTransactionManager.updateCustomerCash(customer.getId(), sub);
-    			customer.getCash().setAmount(sub);
-    		}
+    			bucketTransactionManager.processBucket(customer.getId());
+    			
+    			bucketTransactionManager.clearBucket(customer);
+    			bucketTransactionManager.updateCustomerCash(customer, sub);
+    		} 
     	}
 		return "redirect:/account";
 	}

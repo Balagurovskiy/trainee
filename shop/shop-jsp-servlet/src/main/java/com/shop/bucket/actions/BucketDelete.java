@@ -30,7 +30,7 @@ public class BucketDelete extends BucketAction {
     	if (Objects.nonNull(customer)) {
     		String oredrIdstr = req.getParameter("bucket_cache");
     		if (Objects.nonNull(oredrIdstr) && oredrIdstr.matches("\\d+")) {
-    			bucketCleanerManager.cleanById(Integer.valueOf(oredrIdstr));
+    			bucketCleanerManager.cleanById(customer, Integer.valueOf(oredrIdstr));
     		}
     	}
     	return bucketLoaderService.sendBucketList(req, customer);

@@ -1,37 +1,63 @@
 package com.shop.bean.products;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import javax.sql.DataSource;
+import javax.persistence.EntityManager;
+import javax.transaction.Transactional;
 
-import org.springframework.jdbc.core.JdbcTemplate;
-
+import com.shop.bean.country.CountryEntity;
+import com.shop.bean.currency.CurrencyEntity;
 
 public class ProductRepository {
 	
-	private DataSource dataSource;
-	private JdbcTemplate jdbcTemplate;
+	private EntityManager entityManager;
 
-	public void setDataSource(DataSource dataSource) {
-		this.dataSource = dataSource;
-		jdbcTemplate = new JdbcTemplate(dataSource);
+	public void setEntityManager(EntityManager entityManager) {
+		this.entityManager = entityManager;
 	}
 	
-	public ProductRepository(DataSource dataSource) {
-		setDataSource(dataSource);
+	public ProductRepository(EntityManager entityManager) {
+		setEntityManager(entityManager);
 	}
 	
-	public void set(String name, double price, int currencyId, int eatable){
- 
-		String sql = "INSERT INTO products (name, price, currencyId, eatable) VALUES (?, ?, ?, ?)";
-		jdbcTemplate.update(sql, new Object[]{name, price, currencyId, eatable});
+	private void put(Product p, String name, double price, int currencyId, int countryId) {
+		p.setName(name);
+		p.setPrice(price);
+		p.setCurrency(entityManager.find(CurrencyEntity.class, currencyId));
+		p.setCountry(entityManager.find(CountryEntity.class, countryId));
 	}
 	
+	@Transactional
+	public void putFood(String name, double price, int currencyId, int countryId){
+		Food product = new Food();
+		put(product, name, price, currencyId, countryId);
+		entityManager.persist(product);
+	}
+	@Transactional
+	public void putStuff(String name, double price, int currencyId, int countryId){
+		Stuff product = new Stuff();
+		put(product, name, price, currencyId, countryId);
+		entityManager.persist(product);
+	}
+	
+	@SuppressWarnings("unchecked")
 	public List<Product> getAll() {
-		String sql = "SELECT * FROM internet_shop.products JOIN internet_shop.currency ON currencyId = currency.id";
-		return jdbcTemplate.query(sql,
-		        new Object[]{},
-		        new ProductMapper()
-		        );
+		return  entityManager
+				.createQuery("SELECT p FROM Product p")
+				.getResultList();
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Product> getAllFood() {
+		return  entityManager
+				.createQuery("SELECT f FROM Food f")
+				.getResultList();
+	}
+	@SuppressWarnings("unchecked")
+	public List<Product> getAllStuff() {
+		return  entityManager
+				.createQuery("SELECT s FROM Stuff s")
+				.getResultList();
 	}
 }

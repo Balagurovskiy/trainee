@@ -29,8 +29,8 @@
 	   		  	<tr onclick="from_th_to_hidden(this, 'customer_cache');">
 			      <th>${c.id}</th>
 			      <td>${c.name}</td>
-			      <td>${c.cash.amount}</td>
-			      <td>${c.cash.name}</td>
+			      <td>${c.cash}</td>
+			      <td>${c.currency.name}</td>
 			    </tr>
 	   		</c:forEach>
 	   		

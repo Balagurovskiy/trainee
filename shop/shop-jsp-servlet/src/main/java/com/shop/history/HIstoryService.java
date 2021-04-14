@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.transaction.annotation.Transactional;
 
+import com.shop.bean.customer.Customer;
 import com.shop.bean.orders.Order;
 import com.shop.bean.orders.OrdersRepository;
 
@@ -18,5 +19,9 @@ public class HistoryService {
 	@Transactional(readOnly = true)
 	public List<Order> getCustomerHistory(int customerId){
 		return ordersRepository.getCustomerHistory(customerId);
+	}
+	
+	public List<Order> getCustomerHistory(Customer customer){
+		return customer.getOrders();
 	}
 }

@@ -22,7 +22,7 @@ public class BucketCleaner extends BucketAction {
 	@Override
 	public String execute(HttpServletRequest req) {
     	if (Objects.nonNull(customer)) {
-    		bucketCleanerManager.clean(customer.getId());
+    		bucketCleanerManager.clean(customer);
     	}
 		return "redirect:/account";
 	}

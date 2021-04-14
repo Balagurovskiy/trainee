@@ -25,14 +25,16 @@ public class HistoryController {
     	if (Objects.nonNull(session)) {
     		customer = (Customer) session.getAttribute("customer");
         	session.setMaxInactiveInterval(5 * 60);
+    	} else {
+    		return "redirect:/welcome";
     	}
     	int customerId = Objects.nonNull(customer) ? customer.getId() : -1;
     	String customerName = Objects.nonNull(customer) ? customer.getName() : "-";
-		req.setAttribute("history", historyService.getCustomerHistory(customerId));
+		req.setAttribute("history", historyService.getCustomerHistory(customer));
     	
         req.setAttribute("page_header", "INTERNET SHOP " + customerName + "'s history");
         req.setAttribute("message", "List processed orders:");
         
-		return "history";
+		return "/history";
 	}
 }
